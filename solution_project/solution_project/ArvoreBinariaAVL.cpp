@@ -152,15 +152,15 @@ Node *ArvoreBinariaAVL::balancear(Node *p) {
 
 		int fb_sub = tamanhoE - tamanhoD;
 
-		if (fb_sub >= 2 || fb_sub <= -2) {
-
+		if (fb_sub >= 2) {
 			left = balancear(left);
 			p->insertLeft(left);
+		}
+		else if (fb_sub <= -2) {
 			right = balancear(right);
 			p->insertRight(right);
 		}
 		else if (fb_sub == 1) {
-
 			right = rotacionadir(right);
 			p->insertRight(right);
 			p = rotacionaesq(p);
@@ -181,9 +181,11 @@ Node *ArvoreBinariaAVL::balancear(Node *p) {
 
 		int fb_sub = tamanhoE - tamanhoD;
 
-		if (fb_sub == 2 || fb_sub == -2) {			
+		if (fb_sub == 2) {
 			left = balancear(left);
 			p->insertLeft(left);
+		}
+		else if (fb_sub == -2){
 			right = balancear(right);
 			p->insertRight(right);
 		}
