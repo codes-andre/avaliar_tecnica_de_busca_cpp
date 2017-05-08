@@ -16,24 +16,77 @@ int myrand()
 	return prev;
 }
 
+void bubble(int *x, int n)
+{
+	int aux, j, i;
+	bool trocou = true;
+
+	for (i = 0; i < n - 1 && trocou == true; i++)
+	{
+		trocou = false;
+		for (j = 0; j < n - i - 1; j++)
+			if (x[j] > x[j + 1])
+			{
+				trocou = true;
+				aux = x[j];
+				x[j] = x[j + 1];
+				x[j + 1] = aux;
+			}
+	}
+}
+
 void main() {
 	int min = 0;
 	int output;
+	int tamanho;
+
+	std::cout << "Informe o tamanho do conjunto: ";
+	std::cin >> tamanho;
+	
+	int *vetor = (int*) malloc(tamanho * sizeof(int));
 
 	ArvoreBinariaAVL *tree = new ArvoreBinariaAVL();
+	
 	//INSERE ELEMENTOS ALEATORIOS NA ABB - armazena tempo de indexacao
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < tamanho; i++) {
 		output = min + (rand() % (M - min + 1));
+		
 		tree->insere_elemento(output);
 	}
 
 	//BUSCA ELEMENTOS ALEATORIOS NA ABB - armazena tempo de busca
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < tamanho; i++) {
 		int existe = tree->existe_elemento_int(myrand());
 
 		if (existe != -1)
-			std::cout << "Existe: [" << i << "]" << existe << std::endl;
+			std::cout << "Existe ABB: [" << i << "]" << existe << std::endl;
 
 	}
-	
+
+	//INSERE ELEMENTOS ALEATORIOS NA BB
+	for (int i = 0; i < tamanho; i++) {
+		output = min + (rand() % (M - min + 1));
+		vetor[i] = output;
+	}
+
+	//Ordenar vetor
+	bubble(vetor, tamanho);
+	prev = 1;
+	//BUSCA ELEMENTOS ALEATORIOS NA BB - armazena tempo de busca
+	for (int i = 0; i < tamanho; i++) {
+		int search = myrand();
+		
+		for (int j = 0; j < (tamanho +5); j + 5) {
+		//??	if (j > tamanho) j = tamanho - (j - 5);
+
+			if (search < vetor[j]) {
+				for (int k = 1; k < 6; k++) {
+					if (search == vetor[j - k])
+						std::cout << "Existe BB: vetor [" << j + k << "] == " << vetor[j + k] << " == " << search << std::endl;
+
+				}
+			}
+		}
+	}
+
 }
